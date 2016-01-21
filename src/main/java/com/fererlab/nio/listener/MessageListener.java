@@ -1,4 +1,4 @@
-package com.fererlab.nio.server;
+package com.fererlab.nio.listener;
 
 /**
  * Receiving end's Message listener, receives messages sent by the client

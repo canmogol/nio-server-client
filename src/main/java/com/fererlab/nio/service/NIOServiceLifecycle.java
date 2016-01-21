@@ -1,4 +1,4 @@
-package com.fererlab.nio.server;
+package com.fererlab.nio.service;
 
 /**
  * NIO lifecycle interface, can be used for logging and to notify listeners

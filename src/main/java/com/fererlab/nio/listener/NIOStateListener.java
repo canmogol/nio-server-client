@@ -1,4 +1,4 @@
-package com.fererlab.nio.server;
+package com.fererlab.nio.listener;
 
 /**
  * nio state listener, this interface is useful to monitor the state of the NIO implementation,

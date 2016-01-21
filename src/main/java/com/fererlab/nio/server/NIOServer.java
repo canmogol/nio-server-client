@@ -1,5 +1,11 @@
 package com.fererlab.nio.server;
 
+import com.fererlab.nio.listener.ConnectionListener;
+import com.fererlab.nio.listener.MessageListener;
+import com.fererlab.nio.listener.NIOStateListener;
+import com.fererlab.nio.service.NIOService;
+import com.fererlab.nio.service.NIOServiceLifecycle;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -123,15 +129,20 @@ public class NIOServer implements NIOService, NIOServiceLifecycle {
                 // check if there are any pending bytes scheduled to send to client(s)
                 if (this.pendingBytesToSend.size() > 0) {
                     for (String clientUniqueId : this.pendingBytesToSend.keySet()) {
-                        if (this.pendingBytesToSend.get(clientUniqueId).size() > 0) {
-                            SocketChannel currentClientSocketChannel = this.uuidSocketChannelMap.get(clientUniqueId);
-                            SelectionKey selectionKey = currentClientSocketChannel.keyFor(this.selector);
-                            if (!selectionKey.isWritable()) {
-                                selectionKey.interestOps(SelectionKey.OP_WRITE);
-                                //set current state for this client
-                                this.clientStateMap.put(clientUniqueId, SelectionKey.OP_WRITE);
-                                this.logger.clientHasMessages(clientUniqueId, this.pendingBytesToSend.get(clientUniqueId).size());
+                        if (this.uuidSocketChannelMap.containsKey(clientUniqueId)) {
+                            if (this.pendingBytesToSend.get(clientUniqueId).size() > 0) {
+                                SocketChannel currentClientSocketChannel = this.uuidSocketChannelMap.get(clientUniqueId);
+                                SelectionKey selectionKey = currentClientSocketChannel.keyFor(this.selector);
+                                if (selectionKey != null && !selectionKey.isWritable()) {
+                                    selectionKey.interestOps(SelectionKey.OP_WRITE);
+                                    //set current state for this client
+                                    this.clientStateMap.put(clientUniqueId, SelectionKey.OP_WRITE);
+                                    this.logger.clientHasMessages(clientUniqueId, this.pendingBytesToSend.get(clientUniqueId).size());
+                                }
                             }
+                        } else {
+                            List<byte[]> messages = this.pendingBytesToSend.remove(clientUniqueId);
+                            this.logger.triedToSendMessageToDisconnectedClient(clientUniqueId, messages.size());
                         }
                     }
                 }

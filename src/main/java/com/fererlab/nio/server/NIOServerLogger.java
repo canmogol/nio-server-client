@@ -149,4 +149,8 @@ public class NIOServerLogger {
     public void willStop() {
         logger.info("NIO Server will stop");
     }
+
+    public void triedToSendMessageToDisconnectedClient(String clientUniqueId, int numberOfMessages) {
+        logger.info("trying to send message to disconnected client: " + clientUniqueId + " removed messages for this client, number of removed messages: " + numberOfMessages);
+    }
 }

@@ -1,4 +1,4 @@
-package com.fererlab.nio.server;
+package com.fererlab.nio.listener;
 
 /**
  * client connection listener

@@ -1,4 +1,8 @@
-package com.fererlab.nio.server;
+package com.fererlab.nio.service;
+
+import com.fererlab.nio.listener.ConnectionListener;
+import com.fererlab.nio.listener.MessageListener;
+import com.fererlab.nio.listener.NIOStateListener;
 
 import java.io.IOException;
 
