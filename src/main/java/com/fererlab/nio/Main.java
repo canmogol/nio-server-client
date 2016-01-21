@@ -47,16 +47,21 @@ public class Main {
                     System.out.println("\t ClientUniqueId|message");
                     System.out.println("\t or free format string, this will be broadcasted to all clients");
                     while (true) {
-                        System.out.println("type something: ");
-                        Scanner keyboard = new Scanner(System.in);
-                        String line = keyboard.nextLine();
-                        if ("quit".equals(line)) {
+                        try {
+                            System.out.println("type something: ");
+                            Scanner keyboard = new Scanner(System.in);
+                            String line = keyboard.nextLine();
+                            if ("quit".equals(line)) {
+                                break;
+                            } else if (line.lastIndexOf("|") != -1) {
+                                String[] split = line.split("\\|", 2);
+                                nioServer.send((split[1] + "\r").getBytes(), split[0]);
+                            } else {
+                                nioServer.send((line + "\r").getBytes());
+                            }
+                        } catch (Exception e) {
+                            System.out.println("got exception will break loop, exception: " + e.getMessage());
                             break;
-                        } else if (line.lastIndexOf("|") != -1) {
-                            String[] split = line.split("\\|", 2);
-                            nioServer.send((split[1] + "\r").getBytes(), split[0]);
-                        } else {
-                            nioServer.send((line + "\r").getBytes());
                         }
                     }
                     System.out.println("client message sender quited");
