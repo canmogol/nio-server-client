@@ -345,13 +345,11 @@ public class NIOServer implements NIOService, NIOServiceLifecycle {
         // we will read a new message, so clear the byte buffer
         this.byteBuffer.clear();
 
-        // number of read bytes
-        int numberOfBytes = 0;
-
         // although we should read the channel in a "while (this.byteBuffer.hasRemaining())" loop since there may be more bytes in the channel
 
+        // number of read bytes
         // this will read the bytes to buffer
-        numberOfBytes = socketChannel.read(this.byteBuffer);
+        int numberOfBytes = socketChannel.read(this.byteBuffer);
         this.logger.numberOfBytesRead(numberOfBytes);
 
         // zero bytes indicates an empty read
