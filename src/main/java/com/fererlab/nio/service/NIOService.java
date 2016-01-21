@@ -55,7 +55,7 @@ public interface NIOService {
 
     /**
      * useful for NIO server implementation check if the client with id is connected
-     * NIO client implementation will always return false
+     * NIO client implementation will return its connection state
      *
      * @param clientId client UUID
      * @return will return true if client is connected and available for reading and writing
@@ -64,7 +64,7 @@ public interface NIOService {
 
     /**
      * useful for NIO server implementation, get the status of the client
-     * NIO client implementation will always return 0 (zero)
+     * NIO client implementation will always return its state
      *
      * @param clientId client UUID
      * @return will return this client's state, either 0 or a SelectionKey value like SelectionKey.OP_READ
@@ -73,6 +73,7 @@ public interface NIOService {
 
     /**
      * adds a message listener, they will be called upon new message
+     *
      * @param listener
      */
     void addMessageListener(MessageListener listener);

@@ -27,7 +27,7 @@ public class NIOServerLogger {
     }
 
     public void selectorSelectNotified() {
-        logger.info("Selector woke up, ");
+        logger.info("Selector woke up");
     }
 
     public void clientHasMessages(String clientUniqueId, int size) {

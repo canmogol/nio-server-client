@@ -64,6 +64,7 @@ public class NIOServer implements NIOService, NIOServiceLifecycle {
      * remember to set hostname, port and MessageListener via setter methods
      */
     public NIOServer() {
+        this.logger.emptyConstructorCalledNoParametersAvailable();
         // call lifecycle method create to handle listeners and logging
         this.onCreate();
     }
@@ -541,7 +542,6 @@ public class NIOServer implements NIOService, NIOServiceLifecycle {
 
     @Override
     public void onCreate() {
-        this.logger.emptyConstructorCalledNoParametersAvailable();
         // notify all state listeners that NIOServer created
         for (NIOStateListener nioStateListener : this.nioStateListeners) {
             nioStateListener.created();
